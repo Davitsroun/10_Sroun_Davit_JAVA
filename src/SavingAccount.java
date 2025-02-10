@@ -130,14 +130,18 @@ public class SavingAccount implements Account{
 
          while (true){
 
-             if (amount > 0 && amount <= rate) {
+             if (amount > 0 && amount <= rate *0.8) {
                  rate -= amount;
                  System.out.println(ANSI_GREEN+"Width draw:\t\t\t$"+amount);
                  System.out.println("Total balance:\t\t\t$"+rate+ANSI_RESET);
                  System.out.println(ANSI_CYAN+"==========================="+ANSI_RESET);
                  System.out.println();
                  break;
-             } else {
+             }else if (amount > rate * 0.8) {
+
+                 System.out.println(ANSI_RED + "Cannot withdraw more than 80% of the balance.At least you should have"+rate*0.2 + ANSI_RESET);
+                 break;}
+             else {
                  System.out.println(ANSI_RED+"Insufficient balance or invalid amount."+ANSI_RESET);
                  break;
              }
