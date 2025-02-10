@@ -55,6 +55,7 @@ static void CreateAcc(){
         int OptionCase1= util.InputOption("What type of account do you want to crate?");
             switch (OptionCase1){
                 case 1:{
+                    System.out.println();
                     if (check !=null){
                         System.out.println(ANSI_RED+"Account have already create" + ANSI_RESET);
                         return;
@@ -119,7 +120,7 @@ static void CreateAcc(){
         System.out.println("2. Saving Account");
         System.out.println("3. Back");
         System.out.println("================================================================");
-        int OptionCase1= util.InputOption(ANSI_PURPLE+"What type of account do you want to crate?"+ANSI_RESET);
+        int OptionCase1= util.InputOption(ANSI_PURPLE+"What type of account do you want to Deposite?"+ANSI_RESET);
         System.out.println();
         switch (OptionCase1){
             case 1:{
@@ -179,7 +180,7 @@ public  static  void Widthdraw(){
          System.out.println("2. Saving Account");
          System.out.println("3. Back");
          System.out.println("===========================================================");
-         int OptionCase1= util.InputOption("What type of account do you want to crate?");
+         int OptionCase1= util.InputOption("What type of account do you want to Widthdraw?");
          System.out.println();
          switch (OptionCase1){
 
@@ -236,7 +237,7 @@ public static void TranferMoney(){
          System.out.println("2. Saving Account ->  Checking Account");
          System.out.println("3. Back");
          System.out.println("================================================");
-         int OptionCase1= util.InputOption("What type of account do you want to crate?");
+         int OptionCase1= util.InputOption("What type of account do you want to TrsnferMoney?");
          switch (OptionCase1){
              case 1:{
                 if (saving == null){
@@ -282,21 +283,19 @@ public  static void DeleteAcc(){
     System.out.println("2. Saving Account ");
     System.out.println("3. Back");
     System.out.println("===============================================");
-    int OptionCase1= util.InputOption("What type of account do you want to crate?");
+    int OptionCase1= util.InputOption("What type of account do you want to Delete: ");
     System.out.println();
     switch (OptionCase1){
 
         case 1:{
-            System.out.println();
-            if (check==null){
-                System.out.println(ANSI_RED+"You donot have Checking  Account yet"+ANSI_RESET);
-                break;
+                System.out.println();
+                if (check==null){
+                    System.out.println(ANSI_RED+"You donot have Checking  Account yet"+ANSI_RESET);
+                    break;
+                }
+                check.Delete(saving);
 
-            }
-           String a=util.InputYN();
-            if (a.equals("n")){
-                break;
-            }
+
             break;
         }
         case 2:{
@@ -305,12 +304,8 @@ public  static void DeleteAcc(){
                 System.out.println(ANSI_RED+"You donot have Checking  Account yet"+ANSI_RESET);
                 break;
             }
-            String a=util.InputYN();
-            if (a.equals("n")){
-                break;
-            }else {
+            saving.Delete(check);
 
-            }
             break;
         }
         case 3:{
@@ -324,7 +319,7 @@ public  static void DeleteAcc(){
     public static void main(String[] args) {
     while (true){
         ShowOption();
-        int option= util.InputOption("input your option");
+        int option= util.InputOption("=>input your option: ");
         switch (option){
             case 1:{
                 CreateAcc();

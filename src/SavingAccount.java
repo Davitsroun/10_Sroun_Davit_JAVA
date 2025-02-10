@@ -11,7 +11,7 @@ public class SavingAccount implements Account{
     public static final String ANSI_WHITE = "\u001B[37m";
 
 
-    private String AccountNumber= String.valueOf((int) (Math.random() * 100));
+    static String AccountNumber= String.valueOf((int) (Math.random() * 100));
     private String UserName;
     private String DateofBirth;
     private Gender gender;
@@ -150,15 +150,16 @@ public class SavingAccount implements Account{
     @Override
     public double tranfer(double amount, Account target) {
         System.out.println();
-        System.out.println(ANSI_GREEN+"Tranferred: \t\t\t"+amount);
-        System.out.println("from\t\t:Checking Account ID:"+getUserName());
-        System.out.println("To\t\t:Savint Account ID\t:");
+        System.out.println(ANSI_BLUE+"============== Trsnfer to Checikng Account =============="+ANSI_RESET);
+        System.out.println(ANSI_GREEN+"Tranferred:\t\t\t\t"+amount);
+        System.out.println("from \t:Checking Account ID:"+getUserName());
+        System.out.println("To \t\t:Savint Account ID:"+CheakingAccount.AccountNumber);
         if (amount <= rate){
             rate-=amount;
             target.deposit(amount);
             System.out.println(ANSI_YELLOW+"================================================"+ANSI_RESET);
-            System.out.println("Tranfer $"+amount+" TO Account");
-            System.out.println(ANSI_GREEN+" SUCCESS FULLY TRANFER!"+ANSI_RESET);
+            System.out.println(ANSI_GREEN+"Tranfer $"+amount+" TO Account: "+CheakingAccount.AccountNumber);
+            System.out.println(" SUCCESS FULLY TRANFER!"+ANSI_RESET);
 
         }else{
             System.out.println(ANSI_RED+"Youn don't have enough money...."+ANSI_RESET);
@@ -166,6 +167,40 @@ public class SavingAccount implements Account{
 
         return 0;
     }
+
+    @Override
+    public double Delete(Account targeet) {
+
+            while (true){
+                String  a=util.InputYN();
+                if (a.equals("n")){
+                    return 0;
+                }
+
+                System.out.println(ANSI_BLUE+"============== Delete  Saving Account =============="+ANSI_RESET);
+                System.out.println();
+                System.out.println(ANSI_GREEN+"Tranferred: \t\t\t\t"+rate);
+                System.out.println("from \t:Checking Account ID:"+getUserName());
+                System.out.println("To \t\t:Savint Account ID\t:"+SavingAccount.AccountNumber);
+
+                targeet.deposit(rate);
+                setRate(0);
+                setDateofBirth(null);
+                setAccountNumber(null);
+                setGender(Gender.NONE);
+                setPhineNumber(null);
+                setUserName(null);
+                System.out.println("Total Remain:\t\t\t"+rate+ANSI_RESET);
+
+                System.out.println(ANSI_YELLOW+"================================================"+ANSI_RESET);
+                System.out.println(ANSI_GREEN+"Tranfer $"+rate+" TO Account: "+SavingAccount.AccountNumber);
+                System.out.println(" SUCCESS FULLY TRANFER!"+ANSI_RESET);
+                return 0;
+            }
+
+
+    }
+
 
     @Override
     public void displayAcc() {
@@ -181,5 +216,7 @@ public class SavingAccount implements Account{
         System.out.println();
 
     }
+
+
 
 }

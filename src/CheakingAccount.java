@@ -1,4 +1,7 @@
-public class CheakingAccount implements Account{
+import java.util.Scanner;
+import java.util.regex.Pattern;
+
+public class CheakingAccount  implements Account{
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_RESET = "\u001B[0m";
@@ -12,7 +15,7 @@ public class CheakingAccount implements Account{
 
 
     private double balance;
-    private String AccountNumber=String.valueOf((int) (Math.random() * 100));
+    static String AccountNumber=String.valueOf((int) (Math.random() * 100));
      private String UserName;
      private String DateofBirth;
      private Gender gender;
@@ -134,23 +137,24 @@ public class CheakingAccount implements Account{
     @Override
     public double tranfer(double amount ,Account target) {
         System.out.println();
-        System.out.println(ANSI_GREEN+"Tranferred: \t\t\t"+amount);
-        System.out.println("from\t\t:Checking Account ID:"+getUserName());
-        System.out.println("To\t\t:Savint Account ID\t:");
+        System.out.println(ANSI_BLUE+"============== Trsnfer to Saving Account =============="+ANSI_RESET);
+        System.out.println(ANSI_GREEN+"Tranferred: \t\t\t\t"+amount);
+        System.out.println("from \t:Checking Account ID:"+getUserName());
+        System.out.println("To \t\t:Savint Account ID\t:"+SavingAccount.AccountNumber);
         if (amount <= balance){
             balance-=amount;
 
-            System.out.println("Total Remain:\t\t\t"+balance+ANSI_RESET);
+            System.out.println("Total Remain:\t\t\t\t"+balance+ANSI_RESET);
             target.deposit(amount);
             System.out.println(ANSI_YELLOW+"================================================"+ANSI_RESET);
-            System.out.println("Tranfer $"+amount+" TO Account");
-            System.out.println(ANSI_GREEN+" SUCCESS FULLY TRANFER!"+ANSI_RESET);
+            System.out.println(ANSI_GREEN+"Tranfer $"+amount+" TO Account: "+SavingAccount.AccountNumber);
+            System.out.println(" SUCCESS FULLY TRANFER!"+ANSI_RESET);
 
-        }else{
+        }else
             System.out.println(ANSI_RED+"Youn don't have enough money...."+ANSI_RESET);
             return 0.0;
-        }
-        return   0.0;
+
+
     }
 
     @Override
@@ -165,6 +169,41 @@ public class CheakingAccount implements Account{
         System.out.println("Balance: "+balance+ANSI_RESET);
         System.out.println(ANSI_WHITE+"===================================================="+ANSI_RESET);
         System.out.println();
+
+
+    }
+Scanner sc= new Scanner(System.in);
+    @Override
+    public double Delete(Account targeet) {
+
+
+
+        while (true){
+            System.out.println(ANSI_BLUE+"============== Delete Checking Account =============="+ANSI_RESET);
+            String  a=util.InputYN();
+            if (a.equals("n")){
+                return 0;
+            }
+            System.out.println();
+            System.out.println(ANSI_GREEN+"Tranferred: \t\t\t\t"+balance);
+            System.out.println("from \t:Checking Account ID:"+getUserName());
+            System.out.println("To \t\t:Savint Account ID\t:"+SavingAccount.AccountNumber);
+            targeet.deposit(balance);
+            setBalance(0);
+            setDateofBirth(null);
+            setAccountNumber(null);
+            setGender(Gender.NONE);
+            setPhineNumber(null);
+            setPhineNumber(null);
+            System.out.println("Total Remain:\t\t\t"+balance+ANSI_RESET);
+
+            System.out.println(ANSI_YELLOW+"================================================"+ANSI_RESET);
+            System.out.println(ANSI_GREEN+"Tranfer $"+balance+" TO Account: "+SavingAccount.AccountNumber);
+            System.out.println(" SUCCESS FULLY TRANFER!"+ANSI_RESET);
+
+            return 0.0;
+        }
+
 
 
     }

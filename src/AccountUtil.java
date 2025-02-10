@@ -10,11 +10,37 @@ public class AccountUtil {
 
     String rege="^[1-9]$";
     String nameRegex="^[a-zA-Z]+$";
-    String regexDate="^^(0?[1-9]|[12][0-9]|3[01])[\\/\\-](0?[1-9]|1[012])[\\/\\-]\\d{4}$";
+
     Scanner sc=new Scanner(System.in);
     String RegexPhone= "^0\\d{7,11}$";
     String regeDouble="[0-9]+(\\\\.[0-9]{1,2})?$";
       String YesNo= "^[y|n]$";
+    String regexDate="^^(0?[1-9]|[12][0-9]|3[01])[\\/\\-](0?[1-9]|1[012])[\\/\\-]\\d{4}$";
+    public String InputDate(String text) {
+        String Date;
+
+        Year year= Year.now();
+        int y = Integer.parseInt(String.valueOf(year));
+        do {
+            System.out.print(text);
+            Date = sc.next();
+            if (Pattern.matches(regexDate,Date)){
+                String []a =Date.split("-");
+                int year2= Integer.parseInt(a[2]);
+                if  (y-year2 > 18 ){
+                    break;
+                }else {
+                    System.out.println(ANSI_RED+"We donn't allow user under 18 create ACC...."+ANSI_RESET);
+                }
+
+            }else {
+                System.out.println(ANSI_RED+"Invalid data"+ANSI_RESET);
+            }
+        }while (true);
+
+        return Date;
+    }
+
 
     public  String InputYN() {
         String answer;
@@ -61,30 +87,6 @@ public class AccountUtil {
     }
 
 
-    public String InputDate(String text) {
-        String Date;
-
-        Year year= Year.now();
-        int y = Integer.parseInt(String.valueOf(year));
-        do {
-            System.out.print(text);
-            Date = sc.next();
-            if (Pattern.matches(regexDate,Date)){
-                String []a =Date.split("-");
-                int year2= Integer.parseInt(a[2]);
-                if  (y-year2 > 18 ){
-                    break;
-                }else {
-                    System.out.println(ANSI_RED+"We donn't allow user under 18 create ACC...."+ANSI_RESET);
-                }
-
-            }else {
-                System.out.println(ANSI_RED+"Invalid data"+ANSI_RESET);
-            }
-        }while (true);
-
-        return Date;
-    }
 
     public Gender InputGender(String text){
         String Gnder;
