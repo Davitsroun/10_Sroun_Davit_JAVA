@@ -33,12 +33,12 @@ public class AccountUtil {
     public int InputOption(String text ){
         String number;
         do {
-            System.out.print(text);
+            System.out.print(ANSI_GREEN+text+ANSI_RESET);
             number =sc.next();
             if (Pattern.matches(rege, number)){
                 break;
             }else {
-                System.out.print(ANSI_RED+"input only number"+ANSI_RESET);
+                System.out.println(ANSI_RED+"input only number"+ANSI_RESET);
             }
         }while (true);
 
@@ -53,7 +53,7 @@ public class AccountUtil {
             if (Pattern.matches(nameRegex,name)){
                 break;
             }else {
-                System.out.print(ANSI_RED+"You can input number....."+ANSI_RESET);
+                System.out.println(ANSI_RED+"You can input number....."+ANSI_RESET);
             }
         }while (true);
 
@@ -75,11 +75,11 @@ public class AccountUtil {
                 if  (y-year2 > 18 ){
                     break;
                 }else {
-                    System.out.print(ANSI_RED+"We donn't allow user under 18 create ACC...."+ANSI_RESET);
+                    System.out.println(ANSI_RED+"We donn't allow user under 18 create ACC...."+ANSI_RESET);
                 }
 
             }else {
-                System.out.print(ANSI_RED+"Invalid data"+ANSI_RESET);
+                System.out.println(ANSI_RED+"Invalid data"+ANSI_RESET);
             }
         }while (true);
 
@@ -98,7 +98,7 @@ public class AccountUtil {
                 return  Gender.FEMALE;
             }
             else {
-                System.out.print(ANSI_RED+"Cannot input anythig only(MALE/FEMALE)"+ANSI_RESET);
+                System.out.println(ANSI_RED+"Cannot input anythig only(MALE/FEMALE)"+ANSI_RESET);
             }
 
         }
@@ -108,17 +108,20 @@ public class AccountUtil {
     public String PhonNumber(String text){
         String Phone;
         do {
-            System.out.println(text);
+            System.out.print(text);
             Phone=sc.next();
             if (Pattern.matches(RegexPhone,Phone)){
                 break;
             }
             else {
-                System.out.print(ANSI_RED+"Invalid data....."+ANSI_RESET);
+                System.out.println(ANSI_RED+"Invalid data....."+ANSI_RESET);
+
             }
         }while (true);
         return Phone;
     }
+
+
 
     public double Inputbalance(String text){
        String balance;
@@ -129,29 +132,25 @@ public class AccountUtil {
             if (Pattern.matches(regeDouble, balance)){
                 break;
             }else {
-                System.out.print(ANSI_RED+"Invalid data....."+ANSI_RESET);
+                System.out.println(ANSI_RED+"Invalid data....."+ANSI_RESET);
             }
         }while (true);
         return Double.parseDouble(balance);
     }
+
+
 
     public double InputRate(String text){
         String rate;
         do {
             System.out.println(text);
             rate=sc.next();
-            int b=Integer.valueOf(rate);
-            int a;
-            if (  b  >= 200){
-                 a = (int) (b * 0.05);
-                int c= b+a;
-                rate=String.valueOf(c);
-            }
+
 
             if (Pattern.matches(regeDouble, rate)){
                 break;
             }else {
-                System.out.print(ANSI_RED+"Invalid data....."+ANSI_RESET);
+                System.out.println(ANSI_RED+"Invalid data....."+ANSI_RESET);
             }
         }while (true);
         return Double.parseDouble(rate);

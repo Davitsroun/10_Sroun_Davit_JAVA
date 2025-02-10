@@ -1,35 +1,32 @@
-import java.util.Arrays;
-
-public class AccountService {
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
+public class AccountService  {
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK = "\u001B[30m";
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_PURPLE = "\u001B[35m";
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
-   static String ID;
+
+
+
    static String UserName;
     static String Date;
     static Gender Genser;
     static String PhoneNumber;
-    static String ID2;
+
     static String UserName2;
     static String Date2;
     static Gender Genser2;
     static String PhoneNumber2;
    static double Balance;
-    static   double amount;
+    static   double rate;
     static AccountUtil util =new AccountUtil();
-  static CheakingAccount check= new CheakingAccount(ID,UserName,Date,Genser,PhoneNumber, Balance);
-  static SavingAccount saving =new SavingAccount(ID2,UserName2,Date2,Genser2,PhoneNumber2, amount);
+  static Account check= null;
+  static Account saving =null;
 
- static Account []acc= new Account[2];{
-     acc[0]= check;
-     acc[1]=saving;
-    }
+
 static void ShowOption(){
     System.out.println(ANSI_BLUE+"=============== Online Baking System ======================"+ANSI_RESET);
     System.out.println("1. Create Account");
@@ -42,11 +39,14 @@ static void ShowOption(){
     System.out.println("------------------------------------------------------------");
 }
 
-
-//create acc case1
 static void CreateAcc(){
 
     do {
+        System.out.println();
+        if (saving != null && check != null){
+            System.out.println(ANSI_RED+"All Account had been created"+ANSI_RESET);
+            return;
+        }
         System.out.println(ANSI_BLUE+"=============== Account Information ======================"+ANSI_RESET);
         System.out.println("1. Checking Account");
         System.out.println("2. Saving Account");
@@ -55,40 +55,38 @@ static void CreateAcc(){
         int OptionCase1= util.InputOption("What type of account do you want to crate?");
             switch (OptionCase1){
                 case 1:{
-                    if (acc[0] !=null){
-                        System.out.println(ANSI_RED+"Acoount already created cann't create again...."+ANSI_RESET);
-                        System.out.println();
-                        break;
+                    if (check !=null){
+                        System.out.println(ANSI_RED+"Account have already create" + ANSI_RESET);
+                        return;
                     }
+
                     System.out.println(ANSI_GREEN+"============== Checking Account ==================="+ANSI_RESET);
-                     ID = String.valueOf(Math.random());
+
                      UserName= util.Inputname("Enter your name:");
                      Date= util.InputDate("Enter Date of birth (dd/mm/yyyy)");
                      Genser= util.InputGender("Enter your Gender:");
                      PhoneNumber=util.PhonNumber("Enter your PhoneNumber:");
-                    acc[0]= new CheakingAccount(ID,UserName,Date,Genser,PhoneNumber, Balance);
+                     check= new CheakingAccount(UserName,Date,Genser,PhoneNumber, Balance);
                     System.out.println(ANSI_GREEN+"==================================");
                     System.out.println("Your checking account has been created successfuly!"+ANSI_RESET);
                     System.out.println();
-                    for (Account b: acc){
-                        System.out.println(b);
-                    }
                     break;
 
                 }
                 case 2:{
-                    if (acc[1] !=null){
-                        System.out.println(ANSI_RED+"Acoount already created cann't create again...."+ANSI_RESET);
-                        System.out.println();
-                        break;
+                    System.out.println();
+                    if (saving !=null){
+                        System.out.println(ANSI_RED+"Account have already create" + ANSI_RESET);
+                        return;
                     }
+
                     System.out.println(ANSI_GREEN+"==============  Saving Account ==================="+ANSI_RESET);
-                     ID = String.valueOf(Math.random());
-                     UserName= util.Inputname("Enter your name:");
-                     Date= util.InputDate("Enter Date of birth (dd/mm/yyyy)");
-                     Genser= util.InputGender("Enter your Gender:");
-                     PhoneNumber=util.PhonNumber("Enter your PhoneNumber:");
-                    acc[1]= new SavingAccount(ID2,UserName2,Date2,Genser2,PhoneNumber2, amount);
+
+                     UserName2= util.Inputname("Enter your name:");
+                     Date2= util.InputDate("Enter Date of birth (dd/mm/yyyy)");
+                     Genser2= util.InputGender("Enter your Gender:");
+                     PhoneNumber2=util.PhonNumber("Enter your PhoneNumber:");
+                     saving= new SavingAccount(UserName2,Date2,Genser2,PhoneNumber2, rate);
                     System.out.println(ANSI_GREEN+"==================================");
                     System.out.println("Your saving account has been created successfuly!"+ANSI_RESET);
                     System.out.println();
@@ -107,33 +105,53 @@ static void CreateAcc(){
 
     public static void Deposit(){
 
+
     do {
+        System.out.println();
+        if (saving == null && check == null){
+            System.out.println(ANSI_RED+"Donnot have any Account yet"+ANSI_RESET);
+            System.out.println();
+            return;
+        }
+
         System.out.println(ANSI_BLUE+"=============== Deposit Money ======================"+ANSI_RESET);
         System.out.println("1. Checking Account");
         System.out.println("2. Saving Account");
         System.out.println("3. Back");
         System.out.println("================================================================");
         int OptionCase1= util.InputOption(ANSI_PURPLE+"What type of account do you want to crate?"+ANSI_RESET);
+        System.out.println();
         switch (OptionCase1){
             case 1:{
-                double a;
-                 a=util.Inputbalance("Enter money to deposite:");
-                System.out.println(ANSI_GREEN+"Recieve:\t\t\t\t$"+a);
-                Balance+=a;
-                System.out.println("Total amount:\t\t\t$"+Balance+ANSI_RESET);
-                System.out.println(ANSI_WHITE+"========================================"+ANSI_RESET);
+                if (check == null){
+                    System.out.println(ANSI_RED+"Dontnot have Cheacking Account yet.."+ANSI_RESET);
+                    return;
+                }
 
-                acc[0]= new CheakingAccount(ID,UserName,Date,Genser,PhoneNumber, Balance);
+                double a;
+                System.out.println();
+                System.out.println(ANSI_BLUE+"========= Cheacking Account ============"+ANSI_RESET);
+                 a=util.Inputbalance("Enter money to deposite:");
+                Balance=check.deposit(a);
+                System.out.println(ANSI_BLUE+"Deposite successfuly"+ANSI_RESET);
+                System.out.println();
+
                 break;
             }
             case 2:{
+                if (saving == null){
+                    System.out.println(ANSI_RED+"Dontnot have Saving Account yet.."+ANSI_RESET);
+                    return;
+                }
+                System.out.println();
+                System.out.println(ANSI_BLUE+"========= Saving acc Account ============"+ANSI_RESET);
                 double b;
-                b=util.Inputbalance("Enter money to deposite:");
+                b=util.InputRate("Enter money to deposite:");
                 System.out.println(ANSI_GREEN+"Recieve:\t\t\t\t$"+b);
-                amount+=b;
-                System.out.println("Total amount:\t\t\t$"+amount+ANSI_RESET);
-                acc[1]= new SavingAccount(ID2,UserName2,Date2,Genser2,PhoneNumber2, amount);
-                System.out.println(ANSI_WHITE+"========================================"+ANSI_RESET);
+                rate =saving.deposit(b);
+                System.out.println(ANSI_BLUE+"Deposite successfuly"+ANSI_RESET);
+                System.out.println();
+
                 break;
             }
             case 3:{
@@ -150,23 +168,41 @@ static void CreateAcc(){
 
 public  static  void Widthdraw(){
      do {
+         System.out.println();
+         if (saving == null && check == null){
+             System.out.println(ANSI_RED+"Donnot have any Account yet"+ANSI_RESET);
+             System.out.println();
+             return;
+         }
          System.out.println(ANSI_BLUE+"=============== Widthraw Money ======================"+ANSI_RESET);
          System.out.println("1. Checking Account");
          System.out.println("2. Saving Account");
          System.out.println("3. Back");
-         System.out.println("================================================================");
+         System.out.println("===========================================================");
          int OptionCase1= util.InputOption("What type of account do you want to crate?");
+         System.out.println();
          switch (OptionCase1){
+
              case 1:{
-                 double e=util.Inputbalance("Enter money to Widthraw:" );
-                 Balance= check.withdraw(Balance,e);
-                 acc[0]= new CheakingAccount(ID,UserName,Date,Genser,PhoneNumber, Balance);
+                 if (check==null){
+                     System.out.println(ANSI_RED+"You donot have Checking  Account yet"+ANSI_RESET);
+                     return;
+                 }
+                 System.out.println(ANSI_BLUE+"========= Cheacking Account ============"+ANSI_RESET);
+                 double deposite= util.Inputbalance("Enter your Withdraw:");
+                 double input = check.withdraw( deposite);
+                 Balance =input;
+                 break;
              }
              case 2:{
-                 double e=util.Inputbalance("Enter money to Widthraw:" );
-                 amount=  saving.withdraw(amount,e);
-                 acc[1]= new SavingAccount(ID2,UserName2,Date2,Genser2,PhoneNumber2, amount);
-
+                 if (saving==null){
+                     System.out.println(ANSI_RED+"You donot have Saving  Account yet"+ANSI_RESET);
+                     return;
+                 }
+                 System.out.println(ANSI_BLUE+"========= Saving Account ============"+ANSI_RESET);
+                 double deposite= util.Inputbalance("Enter your Withdraw:");
+                 double input=  saving.withdraw(deposite);
+                 rate =input;
                  break;
              }
              case 3:{
@@ -174,13 +210,116 @@ public  static  void Widthdraw(){
              }
              default:System.out.println(ANSI_RED+"Invalid number......"+ANSI_RESET);
          }
-
-
      }while (true);
 
 }
 
+public static void DisplayAcc(){
+    System.out.println();
+         if (check !=null){
+             check.displayAcc();
+         }
+         if (saving!=null){
+             saving.displayAcc();
+         }
+}
+public static void TranferMoney(){
+     do {
+         System.out.println();
+         if (saving == null && check == null){
+             System.out.println(ANSI_RED+"Donnot have any Account yet"+ANSI_RESET);
+             return;
+         }
+         System.out.println();
+         System.out.println(ANSI_BLUE+"============== Tranfer Money========="+ANSI_RESET);
+         System.out.println("1. Checking Account -> Saving Account");
+         System.out.println("2. Saving Account ->  Checking Account");
+         System.out.println("3. Back");
+         System.out.println("================================================");
+         int OptionCase1= util.InputOption("What type of account do you want to crate?");
+         switch (OptionCase1){
+             case 1:{
+                if (saving == null){
+                    System.out.println(ANSI_RED+"Dontnot have Saving Account to tranfer.."+ANSI_RESET);
+                    System.out.println();
+                    return;
+                }
 
+            double tranfer=util.Inputbalance("Enter your money:");
+
+                 check.tranfer(tranfer, saving);
+                 break;
+             }
+             case 2:{
+                 if (check == null){
+                     System.out.println(ANSI_RED+"Dontnot have Checking Account to tranfer.."+ANSI_RESET);
+                     return;
+                 }
+
+                 double tranfer=util.Inputbalance("Enter your money:");
+
+                 saving.tranfer(tranfer, check);
+                     break;
+             }
+             case 3:{
+                 return;
+             }
+             default:System.out.println(ANSI_RED+"Invalid number......"+ANSI_RESET);
+         }
+
+     }while (true);
+
+
+}
+public  static void DeleteAcc(){
+    System.out.println();
+    if (check== null &&saving == null){
+        System.out.println(ANSI_RED+"You donot have any Account yet"+ANSI_RESET);
+        return;
+    }
+    System.out.println(ANSI_BLUE+"============== Delete Account========="+ANSI_RESET);
+    System.out.println("1. Checking Account ");
+    System.out.println("2. Saving Account ");
+    System.out.println("3. Back");
+    System.out.println("===============================================");
+    int OptionCase1= util.InputOption("What type of account do you want to crate?");
+    System.out.println();
+    switch (OptionCase1){
+
+        case 1:{
+            System.out.println();
+            if (check==null){
+                System.out.println(ANSI_RED+"You donot have Checking  Account yet"+ANSI_RESET);
+                break;
+
+            }
+           String a=util.InputYN();
+            if (a.equals("n")){
+                break;
+            }
+            break;
+        }
+        case 2:{
+            System.out.println();
+            if (saving==null){
+                System.out.println(ANSI_RED+"You donot have Checking  Account yet"+ANSI_RESET);
+                break;
+            }
+            String a=util.InputYN();
+            if (a.equals("n")){
+                break;
+            }else {
+
+            }
+            break;
+        }
+        case 3:{
+            return;
+        }
+        default:System.out.println(ANSI_RED+"Invalid number......"+ANSI_RESET);
+    }
+
+}
 
     public static void main(String[] args) {
     while (true){
@@ -197,20 +336,21 @@ public  static  void Widthdraw(){
                 break;
             }
             case 3:{
+                Widthdraw();
 
                 break;
             }
             case 4:{
+                    TranferMoney();
 
                 break;
             }
             case 5:{
-                for (Account b: acc){
-                    System.out.println(b);
-                }
+                DisplayAcc();
                 break;
             }
             case 6:{
+                DeleteAcc();
 
                 break;
             }
@@ -223,9 +363,6 @@ public  static  void Widthdraw(){
 
 
         }
-
-
-
 
     }
 

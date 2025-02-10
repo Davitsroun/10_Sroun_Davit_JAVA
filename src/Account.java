@@ -1,6 +1,6 @@
 public interface Account {
     double deposit(double amount);
-    double withdraw(double amount, double yourmoney);
-    void tranfer(double amount, Object object);
+    double withdraw(double amount);
+    double tranfer(double amount , Account target);
     void displayAcc();
 }
